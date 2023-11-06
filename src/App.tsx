@@ -14,7 +14,8 @@ import {
 } from "./reducer/reducer";
 import {store} from "./store/store";
 function App() {
-
+//const dispatch = useDispatch()
+//const maxValue = useSelector<StateType, number>((state) => state.counter.maxValue)
     const [state, dispatchState] = useReducer(counterReducer, store)
 
     // const [counter, setCounter] = useState(0)

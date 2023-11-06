@@ -11,6 +11,7 @@ type SettingsPropsType = {
 }
 
 export const Settings: React.FC<SettingsPropsType> = (props) => {
+
     return (
         <div className={s.settings}>
             <Input isError={props.isError} onChange={props.onChangeMaxValHandler} id={'maxVal'} value={props.maxVal} title={'max value:'}/>

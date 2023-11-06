@@ -4,13 +4,13 @@ import s from './Display.module.css'
 
 type DisplayPropsType = {
     counter: number
+    isDisable: boolean
 }
-const Display: React.FC<DisplayPropsType> = (props) => {
+export const Display: React.FC<DisplayPropsType> = (props) => {
     return (
-        <div className={s.display}>
+        <div className={props.isDisable? s.display + ' ' + s.isDisable : s.display}>
             {props.counter}
         </div>
     );
 };
 
-export default Display;

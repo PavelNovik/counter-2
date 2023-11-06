@@ -10,3 +10,7 @@
     border: 3px solid rgba(255, 214, 13, 0.89);
     border-radius: 10px;
 }
+
+.isDisable {
+    color: orangered;
+}

@@ -1,6 +1,21 @@
-import {StateType} from "../store/store";
+export type StateType = {
+    counter: number
+    startValue: number
+    maxValue: number
+    isError: boolean
+    isDisable: boolean
+    settings: boolean
+}
+const initialState: StateType = {
+    counter: 0,
+    startValue:0,
+    maxValue: 5,
+    isError: false,
+    isDisable:false,
+    settings: false
+}
 
-export const counterReducer = (state: StateType, action: ActionType): StateType => {
+export const counterReducer = (state: StateType = initialState, action: ActionType): StateType => {
     switch (action.type) {
         case 'INCREASE_COUNT': {
             const nextVal = state.counter + 1

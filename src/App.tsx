@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useReducer, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import s from "./App.module.css";
 import {Display} from "./components/Display/Display";
@@ -6,83 +6,38 @@ import {Settings} from "./components/Settings/Settings";
 import {Button} from "./components/Button/Button";
 import {
     changeMaxValAC, changeStartValAC,
-    counterReducer,
     getStateAC,
     increaseCountAC,
-    resetCountAC,
+    resetCountAC, StateType,
     toggleSetMenuAC
 } from "./reducer/reducer";
-import {store} from "./store/store";
+import {AppStoreType} from "./store/store";
+import {useDispatch, useSelector} from "react-redux";
 function App() {
-//const dispatch = useDispatch()
+    const state = useSelector<AppStoreType, StateType>(store => store.state)
+const dispatch = useDispatch()
 //const maxValue = useSelector<StateType, number>((state) => state.counter.maxValue)
-    const [state, dispatchState] = useReducer(counterReducer, store)
 
-    // const [counter, setCounter] = useState(0)
-    // const [settings, setSettings] = useState(false)
-    // const [maxVal, setMaxVal] = useState(0)
-    // const [startVal, setStartVal] = useState(2)
-    // const [isError, setIsError] = useState(false)
-    // const [isDisable, setIsDisable] = useState(false)
     useEffect(() => {
-        // const cV = localStorage.getItem('currentVal')
-        // const sV = localStorage.getItem('startVal')
-        // const mV = localStorage.getItem('maxVal')
-        // if (cV) {
-        //     setCounter(JSON.parse(cV))
-        //
-        // }
-        // if (sV) {
-        //     setStartVal(JSON.parse(sV))
-        // }
-        // if (mV) {
-        //     setMaxVal(JSON.parse(mV))
-        // }
-        dispatchState(getStateAC())
+        dispatch(getStateAC())
     }, [])
 
-    // useEffect(() => {
-    //     localStorage.setItem('currentVal', JSON.stringify(counter))
-    //     localStorage.setItem('maxVal', JSON.stringify(maxVal))
-    //     localStorage.setItem('startVal', JSON.stringify(startVal))
-    //     const sV = localStorage.getItem('startVal')
-    //     if (settings && sV) {
-    //         setCounter(JSON.parse(sV))
-    //     }
-    //     if (startVal < 0 || maxVal < 1 || maxVal <= startVal) {
-    //         setIsError(true)
-    //     } else setIsError(false)
-    //     if (counter >= maxVal) {
-    //         setIsDisable(true)
-    //     } else setIsDisable(false)
-    // }, [counter, maxVal, startVal, settings])
 
-    // const increaseCountHandler = useCallback(() => {
-    //     setCounter(counter + 1)
-    // }, [counter])
-    const increaseCountHandler = useCallback(() => dispatchState(increaseCountAC())
+    const increaseCountHandler = useCallback(() => dispatch(increaseCountAC())
         , [state.settings])
-    // const resetCountHandler = useCallback(() => {
-    //     setCounter(startVal)
-    // }, [settings])
-    const resetCountHandler = useCallback(() => dispatchState(resetCountAC()), [state.settings])
-    // const settingsHandler = useCallback(() => {
-    //     setSettings(!settings)
-    // }, [settings])
+
+    const resetCountHandler = useCallback(() => dispatch(resetCountAC()), [state.settings])
+
     const settingsHandler = useCallback(() => {
-        dispatchState(toggleSetMenuAC())
+        dispatch(toggleSetMenuAC())
     }, [state.settings])
-    // const onChangeMaxValHandler = useCallback((value: string) => {
-    //     setMaxVal(+value)
-    // }, [maxVal])
+
     const onChangeMaxValHandler = useCallback((value: string) => {
-        dispatchState(changeMaxValAC(value))
+        dispatch(changeMaxValAC(value))
     }, [state.maxValue])
-    // const onChangeStartValHandler = useCallback((value: string) => {
-    //     setStartVal(+value)
-    // }, [startVal])
+
     const onChangeStartValHandler = useCallback((value: string) => {
-        dispatchState(changeStartValAC(value))
+        dispatch(changeStartValAC(value))
     }, [state.startValue])
 
     return (

@@ -1,16 +1,10 @@
-export type StateType = {
-    counter: number
-    startValue: number
-    maxValue: number
-    isError: boolean
-    isDisable: boolean
-    settings: boolean
-}
-export const store: StateType = {
-    counter: 0,
-    startValue:0,
-    maxValue: 5,
-    isError: false,
-    isDisable:false,
-    settings: false
-}
+import {combineReducers, legacy_createStore} from "redux";
+import {counterReducer} from "../reducer/reducer";
+
+export const rootReduser = combineReducers({
+    state: counterReducer
+})
+
+export type AppStoreType = ReturnType<typeof rootReduser>
+
+export const store = legacy_createStore(rootReduser)

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import s from "./App.module.css";
 import {Display} from "./components/Display/Display";
@@ -6,22 +6,17 @@ import {Settings} from "./components/Settings/Settings";
 import {Button} from "./components/Button/Button";
 import {
     changeMaxValAC, changeStartValAC,
-    getStateAC,
     increaseCountAC,
     resetCountAC, StateType,
     toggleSetMenuAC
 } from "./reducer/reducer";
 import {AppStoreType} from "./store/store";
 import {useDispatch, useSelector} from "react-redux";
+
 function App() {
     const state = useSelector<AppStoreType, StateType>(store => store.state)
-const dispatch = useDispatch()
+    const dispatch = useDispatch()
 //const maxValue = useSelector<StateType, number>((state) => state.counter.maxValue)
-
-    useEffect(() => {
-        dispatch(getStateAC())
-    }, [])
-
 
     const increaseCountHandler = useCallback(() => dispatch(increaseCountAC())
         , [state.settings])
@@ -39,18 +34,20 @@ const dispatch = useDispatch()
     const onChangeStartValHandler = useCallback((value: string) => {
         dispatch(changeStartValAC(value))
     }, [state.startValue])
+    const isDisable = state.counter >= state.maxValue
 
     return (
         <div className="App">
             <div className={s.counter}>
                 {!state.settings ?
-                    <Display isDisable={state.isDisable} counter={state.counter}/> :
+                    <Display isDisable={isDisable} counter={state.counter}/> :
                     <Settings isError={state.isError} maxVal={state.maxValue}
                               startVal={state.startValue} onChangeMaxValHandler={onChangeMaxValHandler}
                               onChangeStartValHandler={onChangeStartValHandler}/>}
 
                 <div className={s.buttonWrapper}>
-                    {!state.settings && <Button isDisable={state.isDisable} onClick={increaseCountHandler} name={'inc'}/>}
+                    {!state.settings &&
+                        <Button isDisable={isDisable} onClick={increaseCountHandler} name={'inc'}/>}
                     {!state.settings && <Button onClick={resetCountHandler} name={'reset'}/>}
                     <Button isDisable={state.isError} onClick={settingsHandler} name={'set'}/>
                 </div>
